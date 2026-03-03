@@ -1,6 +1,6 @@
 import './App.css';
 import toast from 'react-hot-toast';
-import { useDeleteEmployeeMutation, useGetEmployeeByIdQuery, useGetAllEmployeesQuery, useUpdateEmployeeMutation } from './services/employee';
+import { useDeleteEmployeeMutation, useGetEmployeeByIdQuery, useAddEmployeeMutation, useGetAllEmployeesQuery, useUpdateEmployeeMutation } from './services/employee';
 import { useEffect, useState } from 'react';
 
 const initialEmployeeData = {
@@ -16,6 +16,7 @@ const App = () => {
   const [employeeId, setEmployeeId] = useState("");
   const { data: employeeData } = useGetEmployeeByIdQuery(employeeId, { skip: !employeeId });
   const [employeeNewData, setEmployeeNewData] = useState(initialEmployeeData);
+  const [addEmployee, { isSuccess: isAddSuccess }] = useAddEmployeeMutation();
   const [updateEmployee, { isSuccess: isUpdateSuccess }] = useUpdateEmployeeMutation();
 
   const onInputChange = (e) => {
@@ -28,6 +29,12 @@ const App = () => {
       toast.success('Employee deleted successfully', { id: 'delete' });
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (isAddSuccess) {
+      toast.success('Employee added successfully', { id: 'add' });
+    }
+  }, [isAddSuccess]);
 
   useEffect(() => {
     if (isUpdateSuccess) {
@@ -46,6 +53,11 @@ const App = () => {
     }
   };
 
+  const handleAddEmployee = () => {
+    addEmployee(employeeNewData);
+    handleClear();
+  };
+
   const handleUpdate = () => {
     updateEmployee({ id: employeeId, ...employeeNewData });
     handleClear();
@@ -59,7 +71,10 @@ const App = () => {
     <div className='container mx-auto my-10'>
       <div className='flex justify-between items-center'>
         <h1 className='text-2xl font-bold'>Employee List</h1>
-        <button className='bg-blue-500 text-white px-4 py-2 rounded mt-5'>Add Employee</button>
+        <button
+          className='bg-blue-500 text-white px-4 py-2 rounded mt-5 cursor-pointer'
+          command="show-modal" commandfor="add-employee"
+        >Add Employee</button>
       </div>
       <div className='text-center'>
         {isLoading && <p>Loading...</p>}
@@ -108,7 +123,7 @@ const App = () => {
             </table>
           )
         }
-        <dialog id="my-dialog" className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white shadow-lg p-5'>
+        <dialog id="my-dialog" className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white shadow-lg p-5 md:w-1/2 w-full'>
           <p>Edit the data of {employeeData?.EmployeeName}</p>
           <div className=' grid grid-cols-1 gap-3 mt-5'>
             <input
@@ -116,24 +131,28 @@ const App = () => {
               value={employeeNewData?.EmployeeName || ''}
               onChange={onInputChange}
               name="EmployeeName"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
             />
             <input
               type="number"
               value={employeeNewData?.ContactNumber || ''}
               onChange={onInputChange}
               name="ContactNumber"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
             />
             <input
               type="text"
               value={employeeNewData?.Department || ''}
               onChange={onInputChange}
               name="Department"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
             />
             <input
               type="number"
               value={employeeNewData?.Salary || ''}
               onChange={onInputChange}
               name="Salary"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
             />
             <button
               commandfor="my-dialog"
@@ -145,6 +164,49 @@ const App = () => {
             </button>
             <button
               commandfor="my-dialog"
+              command="close"
+            >
+              Close
+            </button>
+          </div>
+        </dialog>
+        <dialog id="add-employee" className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white shadow-lg p-5 md:w-1/2 w-full'>
+          <p>Add a new employee</p>
+          <div className=' grid grid-cols-1 gap-3 mt-5'>
+            <input
+              type="text"
+              onChange={onInputChange}
+              name="EmployeeName"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
+            />
+            <input
+              type="number"
+              onChange={onInputChange}
+              name="ContactNumber"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
+            />
+            <input
+              type="text"
+              onChange={onInputChange}
+              name="Department"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
+            />
+            <input
+              type="number"
+              onChange={onInputChange}
+              name="Salary"
+              className=' focus:outline-none border-b-2 border-gray-300 py-2'
+            />
+            <button
+              commandfor="add-employee"
+              command="close"
+              className='bg-blue-500 text-white px-4 py-2 rounded mt-5'
+              onClick={() => handleAddEmployee()}
+            >
+              Confirm
+            </button>
+            <button
+              commandfor="add-employee"
               command="close"
             >
               Close

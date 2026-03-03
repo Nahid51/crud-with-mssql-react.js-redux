@@ -8,3 +8,12 @@ tbody>tr>td {
 #my-dialog::backdrop {
     background: rgba(0, 0, 0, 0.5);
 }
+
+@media only screen and (max-width: 768px) {
+
+    thead>tr>th,
+    tbody>tr>td {
+        padding: 0 0 0 0 !important;
+    }
+
+}

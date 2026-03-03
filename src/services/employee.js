@@ -15,6 +15,14 @@ export const employeeApi = createApi({
             query: (id) => `/${id}`,
             providesTags: ["Employee"],
         }),
+        addEmployee: builder.mutation({
+            query: (data) => ({
+                url: '/',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ["Employee"],
+        }),
         deleteEmployee: builder.mutation({
             query: (id) => ({
                 url: `/${id}`,
@@ -35,4 +43,4 @@ export const employeeApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllEmployeesQuery, useGetEmployeeByIdQuery, useDeleteEmployeeMutation, useUpdateEmployeeMutation } = employeeApi;
+export const { useGetAllEmployeesQuery, useAddEmployeeMutation, useGetEmployeeByIdQuery, useDeleteEmployeeMutation, useUpdateEmployeeMutation } = employeeApi;
