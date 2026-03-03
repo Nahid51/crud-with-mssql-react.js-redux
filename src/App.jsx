@@ -16,7 +16,7 @@ const App = () => {
   const [employeeId, setEmployeeId] = useState("");
   const { data: employeeData } = useGetEmployeeByIdQuery(employeeId, { skip: !employeeId });
   const [employeeNewData, setEmployeeNewData] = useState(initialEmployeeData);
-  const [updateEmployee, { isSuccess: isUpdateSuccess }] = useUpdateEmployeeMutation({ refetchOnMountOrArgChange: true });
+  const [updateEmployee, { isSuccess: isUpdateSuccess }] = useUpdateEmployeeMutation();
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,13 +25,19 @@ const App = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Employee deleted successfully', { id: 'delete-success' });
-    };
+      toast.success('Employee deleted successfully', { id: 'delete' });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (isUpdateSuccess) {
-      toast.success('Employee updated successfully', { id: 'update-success' });
-    };
-    setEmployeeNewData({ ...employeeData })
-  }, [isSuccess, isUpdateSuccess, employeeData]);
+      toast.success('Employee updated successfully', { id: 'update' });
+    }
+  }, [isUpdateSuccess]);
+
+  useEffect(() => {
+    setEmployeeNewData({ ...employeeData });
+  }, [employeeData]);
 
   const handleDelete = (id) => {
     const popup = window.confirm("Are you sure to delete this employee?");
@@ -44,7 +50,6 @@ const App = () => {
     updateEmployee({ id: employeeId, ...employeeNewData });
     handleClear();
   };
-
 
   const handleClear = () => {
     setEmployeeNewData(initialEmployeeData);
@@ -104,8 +109,8 @@ const App = () => {
           )
         }
         <dialog id="my-dialog" className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white shadow-lg p-5'>
-          <div className=''>
-            <p>Edit the data of {employeeData?.EmployeeName}</p>
+          <p>Edit the data of {employeeData?.EmployeeName}</p>
+          <div className=' grid grid-cols-1 gap-3 mt-5'>
             <input
               type="text"
               value={employeeNewData?.EmployeeName || ''}
