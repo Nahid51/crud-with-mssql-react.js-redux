@@ -1,18 +1,125 @@
-# React + Vite
+# DummyEmployee Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application for managing employee records with a clean, responsive user interface. Built with React, Vite, Redux-Toolkit, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+DummyEmployee Frontend is a full-featured employee management system that provides an intuitive interface for creating, reading, updating, and deleting employee records. The application communicates with a backend API to manage employee data and provides real-time feedback through toast notifications.
 
-## React Compiler
+## Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **View Employees**: Display a complete list of all employees in the system
+- **Add Employees**: Create new employee records with relevant information
+- **Update Employees**: Edit existing employee details
+- **Delete Employees**: Remove employee records with confirmation
+- **Real-time Notifications**: Get instant feedback on all operations via toast notifications
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **State Management**: Redux Toolkit for efficient state management
 
-Note: This will impact Vite dev & build performances.
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19.2.0** - UI library
+- **Vite 7.3.1** - Build tool and dev server
+- **Redux Toolkit 2.11.2** - State management
+- **Tailwind CSS 4.2.1** - Utility-first CSS framework
+- **React Hot Toast 2.6.0** - Notification library
+- **React Redux 9.2.0** - React bindings for Redux
+- **React Compiler** - Performance optimization
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd dummyEmployee-frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## Available Scripts
+
+- **`npm run dev`** - Start the development server with hot module replacement
+- **`npm run build`** - Build the application for production
+- **`npm run preview`** - Preview the production build locally
+- **`npm run lint`** - Run ESLint to check code quality
+
+## Project Structure
+
+```
+src/
+├── App.jsx              # Main application component
+├── App.css              # Application styles
+├── main.jsx             # Application entry point
+├── store.js             # Redux store configuration
+└── services/
+    └── employee.js      # API service for employee operations
+```
+
+## API Integration
+
+The application uses RTK Query for API communication. Employee operations are handled through the following mutations and queries:
+
+- `useGetAllEmployeesQuery()` - Fetch all employees
+- `useGetEmployeeByIdQuery()` - Fetch employee by ID
+- `useAddEmployeeMutation()` - Create new employee
+- `useUpdateEmployeeMutation()` - Update employee information
+- `useDeleteEmployeeMutation()` - Delete employee record
+
+## Development
+
+### Code Quality
+
+The project uses ESLint for code linting. Run the linter with:
+```bash
+npm run lint
+```
+
+### React Compiler
+
+This template includes the React Compiler for enhanced performance optimization. For more information, see the [React Compiler documentation](https://react.dev/learn/react-compiler).
+
+## Building for Production
+
+To create an optimized production build:
+
+```bash
+npm run build
+```
+
+This generates a `dist/` folder with the production-ready files.
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. Create a feature branch for your changes
+2. Write clear commit messages
+3. Ensure code passes linting checks
+4. Test your changes thoroughly
+
+## License
+
+This project is part of the DummyEmployee system. All rights reserved.
